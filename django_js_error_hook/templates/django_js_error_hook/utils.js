@@ -37,7 +37,14 @@
 		xhr.send(query.join('&'));
 	}
 
-	window.onerror = function(error_msg, url, line_number) {
-		logError(url + ':' + line_number + ': ' + error_msg);
+	window.onerror = function(error_msg, url, line_number, column_number) {
+		var info;
+		info = url + ':';
+		info += line_number;
+		// Modern browsers (IE10+, Chrome, etc) may provide the column.
+		if (column_number !== void(0)) {
+		    info += '(' + column_number + ')';
+		}
+		logError(info + ': ' + error_msg);
 	};
 })();
